@@ -41,11 +41,15 @@ public class ReportGenerator {
 
 
     private List<Issue> getIssues() throws JiraException {
-        Issue.SearchResult result = jira.searchIssues(
+        /*Issue.SearchResult result = jira.searchIssues(
                 "project = GEMITPM AND " +
                         "issueType=Story AND " +
                         "status in (\"Planificada en Agenda\", \"Done\") AND " +
                         "issuekey in (childIssuesOf(GEMITPM-705), childIssuesOf(GEMITPM-1363), childIssuesOf(GEMITPM-1364), childIssuesOf(GEMITPM-1365),childIssuesOf(\"GEMITPM-1714\"), GEMITPM-705, GEMITPM-1363, GEMITPM-1364, GEMITPM-1365,GEMITPM-1714)",
+                "summary",
+                1000);*/
+        Issue.SearchResult result = jira.searchIssues(
+                AppProperties.getJql(),
                 "summary",
                 1000);
 

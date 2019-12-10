@@ -1,3 +1,4 @@
 jira.user=
 jira.pass=
 jira.baseuri=
+jira.jql=

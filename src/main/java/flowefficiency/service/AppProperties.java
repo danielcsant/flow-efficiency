@@ -31,11 +31,16 @@ public class AppProperties {
         return getProperties().getProperty("jira.pass");
     }
 
+    public static String getJql() {
+        return getProperties().getProperty("jira.jql");
+    }
+
     public static Properties getProperties() {
         if (appProperties == null) {
             appProperties = new AppProperties();
         }
         return appProperties.prop;
     }
+
 
 }
