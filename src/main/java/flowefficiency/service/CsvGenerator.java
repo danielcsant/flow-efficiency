@@ -1,11 +1,11 @@
-package flowefficiency;
+package flowefficiency.service;
 
-import net.rcarz.jiraclient.User;
+import flowefficiency.model.UserStory;
 
 import java.io.*;
 import java.util.List;
 
-public class Repository {
+public class CsvGenerator {
     //European countries use ";" as
     //CSV separator because "," is their digit separator
     private static final String CSV_SEPARATOR = ";";

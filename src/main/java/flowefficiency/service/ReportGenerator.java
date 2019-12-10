@@ -1,39 +1,37 @@
-package flowefficiency;
+package flowefficiency.service;
 
+import flowefficiency.App;
+import flowefficiency.model.UserStory;
 import net.rcarz.jiraclient.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Service {
+public class ReportGenerator {
 
     private JiraClient jira;
-    private final String BASE_URI = "http://jira.iberdrola.es";
 
-    public Service() {
-        UserInterface userInterface = new UserInterface();
-        BasicCredentials creds = new BasicCredentials(userInterface.getUser(), userInterface.getPassword());
-        jira = new JiraClient(BASE_URI, creds);
+    public ReportGenerator() {
+        BasicCredentials creds = new BasicCredentials(AppProperties.getJiraUser(), AppProperties.getJiraPass());
+        jira = new JiraClient(AppProperties.getBaseUri(), creds);
     }
 
 
     public void start() {
         try {
-
             List userStories = new ArrayList();
             for (Issue issueIter : getIssues()) {
                 /* Retrieve issue GEMITPM-1683 from JIRA. We'll get an exception if this fails. */
                 Issue issue = jira.getIssue(issueIter.getKey(), "summary,customfield_10810", "changelog");
                 UserStory userStory = new ChangelogProcessor().getUserStoryInfo(issue);
                 if (userStory != null) {
-
                     Issue epic = jira.getIssue(issue.getField("customfield_10810").toString(), "summary", "changelog");
                     userStory.setEpicName(epic.getSummary());
                     userStories.add(userStory);
                 }
             }
 
-            new Repository().toCsv(userStories);
+            new CsvGenerator().toCsv(userStories);
 
         } catch (Exception e) {
             e.printStackTrace();

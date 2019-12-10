@@ -1,4 +1,4 @@
-package flowefficiency;
+package flowefficiency.model;
 
 public class UserStory {
 

@@ -1,10 +1,11 @@
-package flowefficiency;
+package flowefficiency.service;
 
+import flowefficiency.model.UserStory;
 import net.rcarz.jiraclient.ChangeLogEntry;
 import net.rcarz.jiraclient.ChangeLogItem;
 import net.rcarz.jiraclient.Issue;
-import net.rcarz.jiraclient.User;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +29,11 @@ public class ChangelogProcessor {
                         }
 
                         if (doingDate != null && doneDate != null){
-                            long diff = doneDate.getTime() - doingDate.getTime();
-                            cycleTime = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+                            cycleTime = new CycleTimeService()
+                                    .getLaboralDaysBetween(
+                                            doingDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                                            doneDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                    );
                         }
                     }
 
@@ -47,11 +51,13 @@ public class ChangelogProcessor {
                 System.out.println("Tiempo de ciclo: " + cycleTime + " días");
                 System.out.println("Eficiencia de flujo: " + flowEfficiency + " %");
 
+                long cycleTimeInLaboralHours = cycleTime * 8;
+
                 userStory = new UserStory(
                         issue.getKey(),
                         issue.getSummary(),
                         timeSpent,
-                        cycleTime,
+                        cycleTimeInLaboralHours,
                         flowEfficiency
                 );
             }

@@ -1,12 +1,10 @@
 package flowefficiency;
 
-import net.rcarz.jiraclient.BasicCredentials;
-import net.rcarz.jiraclient.Issue;
-import net.rcarz.jiraclient.JiraClient;
+import flowefficiency.service.ReportGenerator;
 
 public class App {
 
     public static void main(String[] args) {
-        new Service().start();
+        new ReportGenerator().start();
     }
 }
